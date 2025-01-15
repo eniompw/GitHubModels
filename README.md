@@ -2,34 +2,16 @@
 
 A Python package demonstrating different methods of interacting with Azure OpenAI models through both the OpenAI SDK and REST API.
 
-## Features
-
-- SDK-based implementation using the OpenAI Python package
-- REST API implementation using the requests library
-- Support for Azure OpenAI endpoints
-- Environment variable configuration
-
 ## Setup
 
-Install required packages using pip (Requires: Python >=3.8):
+1. Install dependencies:
 ```bash
 pip install openai requests
 ```
 
-To use this package, you'll need to set up your API token as an environment variable:
-
-If you're using bash:
+2. Set your API token:
 ```bash
 export GITHUB_TOKEN="<your-api-token-goes-here>"
-```
-
-If you're using Python:
-```python
-import os
-os.environ['GITHUB_TOKEN'] = '<your-api-token-goes-here>'
-
-# Or in your .env file:
-# GITHUB_TOKEN=<your-api-token-goes-here>
 ```
 
 ## Usage
@@ -37,29 +19,34 @@ os.environ['GITHUB_TOKEN'] = '<your-api-token-goes-here>'
 ### Using the OpenAI SDK
 
 ```python
-from chat import client
+import os
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://models.inference.ai.azure.com",
+    api_key=os.environ["GITHUB_TOKEN"],
+)
 
 response = client.chat.completions.create(
-    messages=[
-        {
-            "role": "user",
-            "content": "Your question here",
-        }
-    ],
+    messages=[{"role": "user", "content": "Your question here"}],
     model="gpt-4o"
 )
+
+print(response.choices[0].message.content)
 ```
 
 ### Using REST API
 
 ```python
-from rest import headers, url
+import requests
+import os
 
-data = {
-    "messages": [{"role": "user", "content": "Your question here"}],
-    "model": "gpt-4o"
-}
+url = "https://models.inference.ai.azure.com/chat/completions"
+headers = {"Authorization": "Bearer " + str(os.environ.get("GITHUB_TOKEN"))}
+data = {"messages": [{"role": "user", "content": "Your question here"}], "model": "gpt-4o"}
+
 response = requests.post(url, headers=headers, json=data)
+print(response.json()["choices"][0]["message"]["content"])
 ```
 
 ## License
