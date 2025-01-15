@@ -1,8 +1,14 @@
 import base64, requests, os
 
+source = input("Enter image path or URL: ")
+
 try:
-    with open("sample.jpg", "rb") as f:
-        b64_image = base64.b64encode(f.read()).decode('utf-8')
+    if source.startswith(('https://')):
+        image_response = requests.get(source, headers={'User-Agent': 'Mozilla/5.0'})
+        b64_image = base64.b64encode(image_response.content).decode('utf-8')
+    else:
+        with open(source, "rb") as f:
+            b64_image = base64.b64encode(f.read()).decode('utf-8')
 except Exception as e:
     print(f"Image error: {e}")
     exit()
