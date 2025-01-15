@@ -16,7 +16,7 @@ export GITHUB_TOKEN="<your-api-token-goes-here>"
 
 ## Usage
 
-### Using the OpenAI SDK
+### Using the OpenAI SDK (sdk_client.py)
 
 ```python
 import os
@@ -35,7 +35,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-### Using REST API
+### Using REST API (rest.py)
 
 ```python
 import requests
@@ -48,6 +48,26 @@ data = {"messages": [{"role": "user", "content": "Your question here"}], "model"
 response = requests.post(url, headers=headers, json=data)
 print(response.json()["choices"][0]["message"]["content"])
 ```
+
+### Image Analysis (images.py)
+
+The package also supports image analysis using GPT-4o's vision capabilities. You can provide either a local image path or an image URL:
+
+```python
+# Example usage:
+python images.py
+# When prompted, enter either:
+# - A local file path (e.g., "images/photo.jpg")
+# - An image URL (e.g., "https://example.com/image.jpg")
+```
+
+The script will analyze the image and provide a description of its contents.
+
+## Project Structure
+
+- `sdk_client.py`: OpenAI SDK implementation
+- `rest.py`: REST API implementation
+- `images.py`: Image analysis implementation using the REST API
 
 ## References
 
