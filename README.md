@@ -49,6 +49,10 @@ response = requests.post(url, headers=headers, json=data)
 print(response.json()["choices"][0]["message"]["content"])
 ```
 
+## References
+
+For more information about the GPT-4o model and its capabilities, see the [Azure OpenAI GPT-4o Marketplace listing](https://github.com/marketplace/models/azure-openai/gpt-4o).
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
