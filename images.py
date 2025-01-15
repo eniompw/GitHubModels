@@ -3,7 +3,7 @@ import base64, requests, os
 source = input("Enter image path or URL: ")
 
 try:
-    if source.startswith(('https://')):
+    if source.startswith('https://'):
         image_response = requests.get(source, headers={'User-Agent': 'Mozilla/5.0'})
         b64_image = base64.b64encode(image_response.content).decode('utf-8')
     else:
@@ -19,7 +19,7 @@ try:
         headers={"Authorization": f"Bearer {os.environ.get('GITHUB_TOKEN')}"},
         json={"model": "gpt-4o", "messages": [{"role": "user", "content": [
             {"type": "text", "text": "What's in this image?"},
-            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{b64_image}", "detail": "low"}}
+            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{b64_image}"}}
         ]}]}
     )
     print(response.json()["choices"][0]["message"]["content"])
